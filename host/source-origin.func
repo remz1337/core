@@ -28,6 +28,10 @@ cs_git_remote_to_raw_base() {
     [[ "$remote" =~ ssh://git@github\.com/([^/]+)/([^/]+)$ ]]; then
     owner="${BASH_REMATCH[1]}"
     repo="${BASH_REMATCH[2]}"
+    # These forks always fetch from remz, including merge and detached checkouts.
+    case "${owner}/${repo}" in
+    remz1337/core | remz1337/ProxmoxVE | remz1337/ProxmoxVE-Local) branch="remz" ;;
+    esac
     echo "https://raw.githubusercontent.com/${owner}/${repo}/${branch}"
     return 0
   fi
