@@ -17,7 +17,7 @@
 [[ -n "${_INCUS_VM_CORE_LOADED:-}" ]] && return
 _INCUS_VM_CORE_LOADED=1
 
-_CORE_BASE="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+_CORE_BASE="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
 
 # Repeated per file rather than shared: there is nowhere to put a shared copy
 # that does not itself need downloading first. See core/build.func.

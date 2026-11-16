@@ -266,8 +266,8 @@ write_update_entrypoint() {
   [[ -z "$name" ]] && return 0
 
   local base core_url website
-  base="$(_cs_live_base "${base_override:-${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main}}")"
-  core_url="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  base="$(_cs_live_base "${base_override:-${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/remz1337/ProxmoxVE/remz}}")"
+  core_url="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   website="${COMMUNITY_SCRIPTS_WEBSITE_URL:-https://community-scripts.org}"
 
   # Temp file in the same directory, then an atomic mv. /usr/bin/update is
@@ -649,7 +649,7 @@ _cs_engine_ref_line() {
   # The literal fallback matters: build.func exports COMMUNITY_SCRIPTS_CORE_URL
   # but not _CS_CORE_DEFAULT_URL, so a child process sees the url with nothing
   # to compare it against and every ordinary run looks like an override.
-  local default="${_CS_CORE_DEFAULT_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  local default="${_CS_CORE_DEFAULT_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   url="${url%/}"
   [[ -n "$url" && "$url" != "${default%/}" ]] || return 0
   _cs_ref_line Engine "$url" "community-scripts/core"
@@ -666,7 +666,7 @@ _cs_scripts_ref_line() {
   # is not exported either, and DevScripts scripts pin their own. ProxmoxVED is
   # the name DevScripts had before.
   for d in "${_CS_DEFAULT_URL:-}" \
-    https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main \
+    https://raw.githubusercontent.com/remz1337/ProxmoxVE/remz \
     https://raw.githubusercontent.com/community-scripts/DevScripts/main \
     https://raw.githubusercontent.com/community-scripts/ProxmoxVED/main; do
     [[ -n "$d" && "$url" == "${d%/}" ]] && return 0
@@ -1561,7 +1561,7 @@ get_header() {
   [[ "$platform" == incus* ]] && platform="incus" || platform="pve"
   # Headers live in the ENGINE repo, one folder per APP_TYPE. They are generated
   # from the script repos, so a script repo carries none of its own.
-  local core_url="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  local core_url="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   local rel
   # Generic first. The platform folders hold five headers between them, all for
   # apps with no generic one, so the two sets are disjoint and the order cannot

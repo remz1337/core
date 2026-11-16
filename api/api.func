@@ -49,7 +49,7 @@ _api_source_part() {
     source "${COMMUNITY_SCRIPTS_CORE_DIR}/api/${part}.func"
     return 0
   fi
-  local base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  local base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   if command -v curl >/dev/null 2>&1; then
     # shellcheck disable=SC1090
     source <(curl -fsSL "${_CS_CURL_RETRY[@]}" "${base}/api/${part}.func")

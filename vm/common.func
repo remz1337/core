@@ -125,7 +125,7 @@ _vm_checksum_from_sums() {
 _vm_load_forge() {
   declare -f _forge_release_json >/dev/null 2>&1 && return 0
   local rel="lib/forge.func"
-  local base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  local base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
 
   if [[ -n "${COMMUNITY_SCRIPTS_CORE_DIR:-}" && -f "${COMMUNITY_SCRIPTS_CORE_DIR}/${rel}" ]]; then
     # shellcheck disable=SC1090

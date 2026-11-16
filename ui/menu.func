@@ -28,69 +28,8 @@ _BUILD_UI_MENU_LOADED=1
 # - Sets global DIAGNOSTICS variable for API telemetry opt-in/out
 # ------------------------------------------------------------------------------
 diagnostics_check() {
-  local _cs_dir _diag_file
-  _cs_dir="$(declare -f community_scripts_dir >/dev/null 2>&1 && community_scripts_dir || echo /usr/local/community-scripts)"
-  _diag_file="${_cs_dir}/diagnostics"
-  if ! [ -d "$_cs_dir" ]; then
-    mkdir -p "$_cs_dir"
-  fi
-
-  if ! [ -f "$_diag_file" ]; then
-    if (whiptail --backtitle "Proxmox VE Helper Scripts" --title "DIAGNOSTICS" --yesno "Send Diagnostics of LXC Installation?\n\n(This only transmits data without user data, just RAM, CPU, LXC name, ...)" 10 58); then
-      cat <<EOF >"$_diag_file"
-DIAGNOSTICS=yes
-
-#This file is used to store the diagnostics settings for the Community-Scripts API.
-#https://github.com/community-scripts/ProxmoxVE/discussions/1836
-#Your diagnostics will be sent to the Community-Scripts API for troubleshooting/statistical purposes.
-#You can review the data at https://community-scripts.org/analytics
-#If you do not wish to send diagnostics, please set the variable 'DIAGNOSTICS' to "no" in ${_diag_file}, or use the menue.
-#This will disable the diagnostics feature.
-#To send diagnostics, set the variable 'DIAGNOSTICS' to "yes" in ${_diag_file}, or use the menue.
-#This will enable the diagnostics feature.
-#The following information will be sent:
-#"disk_size"
-#"core_count"
-#"ram_size"
-#"os_type"
-#"os_version"
-#"nsapp"
-#"method"
-#"pve_version"
-#"status"
-#If you have any concerns, please review the source code at core/core/build.func
-EOF
-      DIAGNOSTICS="yes"
-    else
-      cat <<EOF >"$_diag_file"
-DIAGNOSTICS=no
-
-#This file is used to store the diagnostics settings for the Community-Scripts API.
-#https://github.com/community-scripts/ProxmoxVE/discussions/1836
-#Your diagnostics will be sent to the Community-Scripts API for troubleshooting/statistical purposes.
-#You can review the data at https://community-scripts.org/analytics
-#If you do not wish to send diagnostics, please set the variable 'DIAGNOSTICS' to "no" in ${_diag_file}, or use the menue.
-#This will disable the diagnostics feature.
-#To send diagnostics, set the variable 'DIAGNOSTICS' to "yes" in ${_diag_file}, or use the menue.
-#This will enable the diagnostics feature.
-#The following information will be sent:
-#"disk_size"
-#"core_count"
-#"ram_size"
-#"os_type"
-#"os_version"
-#"nsapp"
-#"method"
-#"pve_version"
-#"status"
-#If you have any concerns, please review the source code at core/core/build.func
-EOF
-      DIAGNOSTICS="no"
-    fi
-  else
-    DIAGNOSTICS=$(awk -F '=' '/^DIAGNOSTICS/ {print $2}' "$_diag_file")
-
-  fi
+  # Telemetry is disabled in this fork, including previously opted-in hosts.
+  export DIAGNOSTICS=no
 }
 
 diagnostics_menu() {
@@ -775,6 +714,8 @@ run_addon_updates() {
 }
 
 runtime_script_status_guard() {
+  # Privacy: external reporting and metadata queries are disabled in this fork.
+  return 0
   local mode="${1:-}"
   local script_slug="${SCRIPT_SLUG:-${NSAPP:-}}"
   script_slug="$(echo "$script_slug" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
@@ -959,6 +900,8 @@ check_container_os_guard() {
 #     check entirely). This is the one case where a reachable hit is fatal — never
 #     an unreachable one, so a flaky API still can't wedge a fleet.
 check_breaking_change_guard() {
+  # Privacy: external reporting and metadata queries are disabled in this fork.
+  return 0
   local script_slug="${SCRIPT_SLUG:-${NSAPP:-}}"
   script_slug="$(echo "$script_slug" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
   [[ -z "$script_slug" ]] && return 0

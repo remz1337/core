@@ -14,6 +14,8 @@ _API_TELEMETRY_LOADED=1
 
 # curl present, opted in, session id set
 _tm_enabled() {
+  # Privacy: external reporting and metadata queries are disabled in this fork.
+  return 1
   command -v curl &>/dev/null || return 1
   [[ "${DIAGNOSTICS:-no}" == "no" ]] && return 1
   [[ -z "${RANDOM_UUID:-}" ]] && return 1
@@ -123,6 +125,8 @@ EOF
 # _tm_send <payload> [timeout] [attempts] - 0 on HTTP 2xx, 1 otherwise, never raises
 # ------------------------------------------------------------------------------
 _tm_send() {
+  # Privacy: external reporting and metadata queries are disabled in this fork.
+  return 0
   local payload="$1"
   local timeout="${2:-$TELEMETRY_TIMEOUT}"
   local attempts="${3:-1}"
@@ -217,6 +221,8 @@ _tm_post_progress() {
 # aborted. exit_code "none" means 0; anything else non-numeric becomes 199.
 # ------------------------------------------------------------------------------
 _tm_post_update() {
+  # Privacy: external reporting and metadata queries are disabled in this fork.
+  return 0
   command -v curl &>/dev/null || return 0
 
   local status="${1:-failed}"
@@ -314,6 +320,8 @@ _tm_requirement_code() {
 # fields as installs; an abort carries its reason.
 # ------------------------------------------------------------------------------
 _tm_post_run() {
+  # Privacy: do not collect or report tool and addon diagnostics.
+  return 0
   command -v curl &>/dev/null || return 0
   [[ "${DIAGNOSTICS:-no}" == "no" ]] && return 0
 

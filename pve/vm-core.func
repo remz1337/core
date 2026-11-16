@@ -10,7 +10,7 @@ _VM_CORE_DISPATCHED=1
 # that does not itself need downloading first. See core/build.func.
 _CS_CURL_RETRY=(--retry 3 --retry-delay 1 --retry-connrefused --connect-timeout 10)
 
-COMMUNITY_SCRIPTS_URL="${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main}"
+COMMUNITY_SCRIPTS_URL="${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/remz1337/ProxmoxVE/remz}"
 
 if command -v pveversion &>/dev/null; then
   :
@@ -23,7 +23,7 @@ elif command -v incus &>/dev/null && incus info &>/dev/null 2>&1; then
     # shellcheck disable=SC1090
     source "${COMMUNITY_SCRIPTS_CORE_DIR}/incus/vm-core.func"
   else
-    _vm_core_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+    _vm_core_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
     # shellcheck disable=SC1090
     source <(curl -fsSL "${_CS_CURL_RETRY[@]}" "${_vm_core_base}/incus/vm-core.func" 2>/dev/null ||
       wget -qO- "${_vm_core_base}/incus/vm-core.func")
@@ -41,7 +41,7 @@ elif [[ -n "${COMMUNITY_SCRIPTS_CORE_DIR:-}" && -f "${COMMUNITY_SCRIPTS_CORE_DIR
   # shellcheck disable=SC1090
   source "${COMMUNITY_SCRIPTS_CORE_DIR}/host/validate.func"
 else
-  _vm_validate_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  _vm_validate_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   # shellcheck disable=SC1090
   source <(curl -fsSL "${_CS_CURL_RETRY[@]}" "${_vm_validate_base}/host/validate.func" 2>/dev/null ||
     wget -qO- "${_vm_validate_base}/host/validate.func")
@@ -54,7 +54,7 @@ elif [[ -n "${COMMUNITY_SCRIPTS_CORE_DIR:-}" && -f "${COMMUNITY_SCRIPTS_CORE_DIR
   # shellcheck disable=SC1091
   source "${COMMUNITY_SCRIPTS_CORE_DIR}/vm/common.func"
 else
-  _vm_common_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  _vm_common_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   # shellcheck disable=SC1090
   source <(curl -fsSL "${_CS_CURL_RETRY[@]}" "${_vm_common_base}/vm/common.func" 2>/dev/null ||
     wget -qO- "${_vm_common_base}/vm/common.func")
@@ -75,11 +75,11 @@ BUILD_LOG="${BUILD_LOG:-/tmp/cs-vm-$$.log}"
 TELEMETRY_TYPE="vm"
 export BUILD_LOG
 
-COMMUNITY_SCRIPTS_URL="${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main}"
+COMMUNITY_SCRIPTS_URL="${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/remz1337/ProxmoxVE/remz}"
 
 load_api_functions() {
   if ! declare -f post_to_api_vm >/dev/null 2>&1; then
-    source /dev/stdin <<<$(curl -fsSL "${_CS_CURL_RETRY[@]}" "${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}/api/api.func")
+    source /dev/stdin <<<$(curl -fsSL "${_CS_CURL_RETRY[@]}" "${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}/api/api.func")
   fi
 }
 
@@ -116,7 +116,7 @@ load_cloud_init_functions() {
   declare -f setup_cloud_init >/dev/null 2>&1 && return 0
 
   local rel="vm/cloud-init.func" url
-  local base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  local base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
 
   if [[ -n "${COMMUNITY_SCRIPTS_CORE_DIR:-}" && -f "${COMMUNITY_SCRIPTS_CORE_DIR}/${rel}" ]]; then
     # shellcheck disable=SC1090
@@ -134,8 +134,8 @@ load_cloud_init_functions() {
   # serving the identical blob under .../refs/heads/main/<path>. One helper
   # being unreachable should not cost a finished VM, so try the long ref form
   # and a mirror before giving up.
-  [[ "$base" == */main ]] && urls+=("${base%/main}/refs/heads/main/${rel}")
-  urls+=("https://cdn.jsdelivr.net/gh/community-scripts/core@main/${rel}")
+  [[ "$base" == */remz ]] && urls+=("${base%/remz}/refs/heads/remz/${rel}")
+  urls+=("https://cdn.jsdelivr.net/gh/remz1337/core@remz/${rel}")
 
   for url in "${urls[@]}"; do
     # shellcheck disable=SC1090
@@ -165,7 +165,7 @@ _cs_header_slugs() {
 # Function to download & save header files
 get_header() {
   local app_type=${APP_TYPE:-vm}
-  local core_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}"
+  local core_base="${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}"
   local slug cache
 
   while read -r slug; do
@@ -2762,7 +2762,7 @@ set_description() {
     cat <<EOF
 <div align='center'>
   <a href='https://community-scripts.org' target='_blank' rel='noopener noreferrer'>
-      <img src='https://raw.githubusercontent.com/community-scripts/core/main/images/logo-description.png' alt='Community-Scripts' width='192' height='112' style='width:192px;height:112px;'/>
+      <img src='https://raw.githubusercontent.com/remz1337/core/remz/images/logo-description.png' alt='Community-Scripts' width='192' height='112' style='width:192px;height:112px;'/>
   </a>
 
   <h2 style='font-size: 24px; margin: 20px 0;'>${description_title}</h2>

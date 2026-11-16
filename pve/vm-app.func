@@ -52,7 +52,7 @@ list_available_apps() {
 
   # The repository the install scripts are fetched from, not a fixed one: a
   # list from elsewhere offers apps that then fail to download.
-  local slug="community-scripts/ProxmoxVE" ref="main"
+  local slug="remz1337/ProxmoxVE" ref="remz"
   if [[ "${COMMUNITY_SCRIPTS_URL:-}" =~ ^https://raw\.githubusercontent\.com/([^/]+/[^/]+)/(.+)$ ]]; then
     slug="${BASH_REMATCH[1]}"
     ref="${BASH_REMATCH[2]%/}"
@@ -352,8 +352,8 @@ customize_vm_image() {
   local tmp_install_func tmp_tools_func
   tmp_install_func=$(mktemp)
   tmp_tools_func=$(mktemp)
-  curl -fsSL "${_CS_CURL_RETRY[@]}" "${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}/lxc/install.func" >"$tmp_install_func"
-  curl -fsSL "${_CS_CURL_RETRY[@]}" "${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}/lib/tools.func" >"$tmp_tools_func"
+  curl -fsSL "${_CS_CURL_RETRY[@]}" "${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}/lxc/install.func" >"$tmp_install_func"
+  curl -fsSL "${_CS_CURL_RETRY[@]}" "${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}/lib/tools.func" >"$tmp_tools_func"
 
   virt-customize -q -a "$WORK_FILE" \
     --mkdir /opt/community-scripts \

@@ -29,7 +29,7 @@ set -euo pipefail
 
 SCRIPTS_BASE="${1:-}"
 SCRIPT="${2:-}"
-CORE_BASE="${3:-${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/community-scripts/core/main}}"
+CORE_BASE="${3:-${COMMUNITY_SCRIPTS_CORE_URL:-https://raw.githubusercontent.com/remz1337/core/remz}}"
 
 if [[ -z "$SCRIPTS_BASE" || -z "$SCRIPT" ]]; then
   cat >&2 <<'USAGE'
@@ -37,7 +37,7 @@ Usage: curl -fsSL <core-base>/tools/run.sh | bash -s -- <script-base> <script> [
 
   script-base  raw base of the script repo  e.g. https://raw.githubusercontent.com/YOU/ProxmoxVE/branch
   script       path within that repo         e.g. ct/debian.sh
-  core-base    raw base of the engine repo   default: community-scripts/core@main
+  core-base    raw base of the engine repo   default: remz1337/core@remz
                                              (or $COMMUNITY_SCRIPTS_CORE_URL)
 USAGE
   exit 2

@@ -44,6 +44,12 @@ _tm_send() {
   json_field "$SENT" status >>"$TEST_DIR/statuses"
 }
 telemetry_collect_sysinfo() { :; }
+# Exercise the retained trace/payload logic with the in-memory sender above.
+# Production entry points stay disabled; fork-privacy.sh tests that policy.
+for sender in _tm_post_update _tm_post_run; do
+  eval "$(awk -v name="$sender" '$0 == name "() {" {copy=1} copy {print} copy && /^}$/ {exit}' \
+    "$CORE_DIR/api/telemetry.func" | sed '/^  # Privacy:/{N;d;}')"
+done
 DIAGNOSTICS=yes RANDOM_UUID=00000000-0000-4000-8000-000000000000 SESSION_ID=test NSAPP=demo
 BUILD_LOG="$LOG" INSTALL_LOG="$TEST_DIR/none.log"
 
@@ -195,6 +201,7 @@ set -eEuo pipefail
 for part in exitcodes errorlog sysinfo telemetry; do source "$CORE_DIR/api/\${part}.func"; done
 REPO_SOURCE=ProxmoxVE TELEMETRY_PAYLOAD_VERSION=3 TELEMETRY_TIMEOUT=5
 telemetry_collect_sysinfo() { :; }
+$(declare -f _tm_post_update _tm_post_run)
 _tm_send() { printf '%s' "\$1" >"$SENT"; }
 whiptail() { return "\$1"; }
 init_tool_telemetry demo-tool pve

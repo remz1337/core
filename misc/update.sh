@@ -47,7 +47,7 @@ _cs_github_base() {
   esac
 }
 
-BASE="$(_cs_github_base "${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main}")"
+BASE="$(_cs_github_base "${COMMUNITY_SCRIPTS_URL:-https://raw.githubusercontent.com/remz1337/ProxmoxVE/remz}")"
 export COMMUNITY_SCRIPTS_URL="$BASE"
 WEBSITE="${COMMUNITY_SCRIPTS_WEBSITE_URL:-https://community-scripts.org}"
 
@@ -135,11 +135,13 @@ if [[ -z "$SLUG" ]]; then
 fi
 
 # ── Ask the website what to do. ────────────────────────────────────────────────
-info="$(curl -fsSL --connect-timeout 5 --max-time 8 "${WEBSITE}/api/update-info?slug=${SLUG}" 2>/dev/null)"
+# Privacy: do not disclose the installed application to the upstream website.
+# An empty response follows the existing direct-update fallback below.
+info=""
 
 # Fail open: an unreachable website must never turn `update` into a hard error.
 if [[ -z "$info" ]]; then
-  msg_info "Update service unreachable — continuing with a normal update."
+  msg_info "Website status checks disabled — continuing with a fork update."
   run_app_update
   exit $?
 fi
